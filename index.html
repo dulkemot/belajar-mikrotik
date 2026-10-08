@@ -12,6 +12,12 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(11,21,38,.95);backdr
 .top-in{max-width:1200px;margin:0 auto;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
 .top-in b{font-size:17px}.top-in nav a{margin-left:14px;color:#BFD2EC;text-decoration:none;font-size:13.5px;font-weight:600}
 .hero{max-width:1200px;margin:0 auto;padding:48px 20px 10px}
+.fig{margin:16px 0;background:#060D1A;border:1px solid #22365A;border-radius:14px;overflow:hidden}
+.fig img{width:100%;max-height:320px;object-fit:cover;display:block}
+.figcap{padding:10px 16px;font-size:12.5px;color:#8DBDFF}
+.dia{background:#060D1A;border:1px solid #22365A;border-radius:14px;padding:12px;margin:14px 0}
+.dia svg{width:100%;height:auto;display:block}
+.dia .cap{text-align:center;font-size:12.5px;color:#8DBDFF;margin-top:6px}
 .hero h1{font-size:clamp(28px,4.5vw,44px);margin:0 0 10px;letter-spacing:-.02em}
 .hero h1 span{color:#FF8A00}.lead{color:#9FB4CE;max-width:70ch}
 .btn{background:#FF8A00;color:#13100A;font-weight:800;padding:11px 20px;border-radius:10px;text-decoration:none;display:inline-block;margin:6px 10px 6px 0;font-size:14px}
@@ -45,10 +51,14 @@ footer{border-top:1px solid #22365A;padding:22px 20px;max-width:1200px;margin:0 
 <body>
 <header class="top"><div class="top-in"><b>📡 Belajar MikroTik</b><nav><a href="#mulai">Mulai</a><a href="#lab">Lab</a><a href="#kuis">Kuis</a><a href="https://github.com/dulkemot/mikrotik-toolbox">Script →</a></nav></div></header>
 
-<div class="hero">
+<div class="hero" style="position:relative;overflow:hidden;border-radius:0 0 20px 20px;background:#060D1A">
+<img src="img/kabel.jpg" alt="Rak server dan kabel jaringan" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35" />
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,21,38,.55),#0B1526 96%)"></div>
+<div style="position:relative;z-index:2">
 <h1>Belajar MikroTik <span>dari Nol sampai Bisa</span></h1>
 <p class="lead">Materi jaringan lengkap untuk pemula & mahasiswa: dari colok kabel pertama sampai VPN, QoS, dan hotspot — dengan analogi sederhana, perintah siap salin, dan kuis. Didampingi repo <a href="https://github.com/dulkemot/mikrotik-toolbox">mikrotik-toolbox</a> (script siap pakai) dan <a href="https://dulkemot.github.io/subnet-kalkulator/">kalkulator subnet</a>.</p>
 <p><a class="btn" href="#mulai">Mulai Belajar →</a><a class="btn ghost" href="#kuis">Langsung Kuis</a></p>
+</div>
 </div>
 
 <div class="layout">
@@ -81,6 +91,7 @@ footer{border-top:1px solid #22365A;padding:22px 20px;max-width:1200px;margin:0 
 <tr><td>4 (bawaan hAP/RB kecil)</td><td>Rumah, lab, AP</td></tr>
 <tr><td>5–6</td><td>ISP kecil, hotspot besar, routing penuh</td></tr>
 <tr><td>CHR trial / P1</td><td>Lab virtual & cloud</td></tr></table>
+<div class="fig"><img src="img/server.jpg" alt="Perangkat keras jaringan" loading="lazy" /><div class="figcap">Perangkat keras: RouterBOARD fisik untuk produksi, CHR/x86 untuk lab dan cloud.</div></div>
 </section>
 
 <section class="card" id="akses">
@@ -112,6 +123,7 @@ footer{border-top:1px solid #22365A;padding:22px 20px;max-width:1200px;margin:0 
 <span class="cmt"># 4. NAT: sembunyikan IP LAN di balik IP publik</span>
 <span class="cmd">/ip firewall nat add chain=srcnat out-interface=ether1 action=masquerade</span></pre></div>
 <div class="analogi"><b>💡 Analogi NAT:</b> satu kantor punya 50 karyawan tapi 1 nomor telepon humas. Semua panggilan keluar "mengatasnamakan" humas — itulah <i>masquerade</i>.</div>
+<div class="fig"><img src="img/wifi.jpg" alt="Colokan kabel UTP di patch panel" loading="lazy" /><div class="figcap">Langkah 0 yang sering dilupakan: pastikan kabel UTP nancap rapi di port yang benar (ether1 = ISP, ether2 = LAN).</div></div>
 <p>Cek: <code>/ip dhcp-client print</code> (status harus <i>bound</i>), lalu dari laptop: <code>ping 8.8.8.8</code> dan <code>ping google.com</code>. Kalau yang pertama jalan tapi kedua gagal → masalahnya <b>DNS</b>.</p>
 </section>
 
@@ -127,6 +139,15 @@ footer{border-top:1px solid #22365A;padding:22px 20px;max-width:1200px;margin:0 
 <span class="cmd">/ip dhcp-server add name=dhcp-lan interface=ether2 address-pool=pool-lan disabled=no</span>
 <span class="cmd">/ip dhcp-server network add address=192.168.88.0/24 gateway=192.168.88.1 dns-server=192.168.88.1</span></pre></div>
 <p>Di WinBox: <b>IP → DHCP Server → DHCP Setup</b> (wizard otomatis, cocok untuk pemula).</p>
+<div class="dia"><svg viewBox="0 0 640 130" role="img" aria-label="Diagram pembagian subnet">
+<text x="10" y="18" fill="#8DBDFF" font-size="13" font-family="monospace">192.168.10.0/24 — 256 IP dibagi 4 divisi (/26 = 62 host/divisi)</text>
+<rect x="10" y="30" width="620" height="52" rx="10" fill="none" stroke="#2A3F5F" stroke-width="2"/>
+<rect x="12" y="32" width="152" height="48" fill="#16294a"/><text x="88" y="55" fill="#E7EEF7" font-size="13" text-anchor="middle">Div A .0–.63</text>
+<rect x="164" y="32" width="152" height="48" fill="#12233d"/><text x="240" y="55" fill="#E7EEF7" font-size="13" text-anchor="middle">Div B .64–.127</text>
+<rect x="316" y="32" width="152" height="48" fill="#16294a"/><text x="392" y="55" fill="#E7EEF7" font-size="13" text-anchor="middle">Div C .128–.191</text>
+<rect x="468" y="32" width="160" height="48" fill="#12233d"/><text x="548" y="55" fill="#E7EEF7" font-size="13" text-anchor="middle">Div D .192–.255</text>
+<text x="10" y="108" fill="#6B84A3" font-size="12">Contoh Tugas 2: tiap segmen jadi 1 VLAN / 1 interface di router.</text>
+</svg><div class="cap">Gambar 1 — Satu /24 dipecah jadi empat /26 untuk 4 divisi.</div></div>
 <h3>DNS: buku telepon internet</h3>
 <p>Manusia ingat <i>google.com</i>, komputer butuh <i>142.250.x.x</i>. Router bisa jadi "tukang tanya" (allow-remote-requests) agar client cukup mengarah ke IP router. Tambahan keren: <b>Static DNS</b> untuk blokir situs (<code>/ip dns static add name=iklan.mengganggu address=127.0.0.1</code>) atau arahkan domain ke server lokal.</p>
 </section>
@@ -139,6 +160,13 @@ footer{border-top:1px solid #22365A;padding:22px 20px;max-width:1200px;margin:0 
 <tr><td><b>input</b></td><td>Paket yang <i>tujuannya router itu sendiri</i></td><td>Login WinBox, DNS ke router</td></tr>
 <tr><td><b>forward</b></td><td>Paket <i>lewat</i> router (client ↔ internet)</td><td>Browsing, game, streaming</td></tr>
 <tr><td><b>output</b></td><td>Paket <i>dari</i> router keluar</td><td>Ping/Netwatch dari router</td></tr></table>
+<div class="dia"><svg viewBox="0 0 640 180" role="img" aria-label="Diagram tiga chain firewall">
+<rect x="10" y="14" width="170" height="46" rx="10" fill="#16294a" stroke="#2A3F5F"/><text x="95" y="33" fill="#E7EEF7" font-size="13" text-anchor="middle">💻 Client</text><text x="95" y="50" fill="#8DBDFF" font-size="12" text-anchor="middle">mau ke router?</text>
+<rect x="235" y="14" width="170" height="46" rx="10" fill="#2a1a08" stroke="#FF8A00"/><text x="320" y="33" fill="#FF8A00" font-size="13" text-anchor="middle" font-weight="bold">🔲 ROUTER</text><text x="320" y="50" fill="#8DBDFF" font-size="12" text-anchor="middle">chain: INPUT</text>
+<rect x="460" y="14" width="170" height="46" rx="10" fill="#16294a" stroke="#2A3F5F"/><text x="545" y="33" fill="#E7EEF7" font-size="13" text-anchor="middle">🌐 Internet</text><text x="545" y="50" fill="#8DBDFF" font-size="12" text-anchor="middle">mau lewat?</text>
+<rect x="235" y="82" width="170" height="46" rx="10" fill="#12233d" stroke="#3FB950"/><text x="320" y="101" fill="#3FB950" font-size="13" text-anchor="middle" font-weight="bold">➡ FORWARD</text><text x="320" y="118" fill="#8DBDFF" font-size="12" text-anchor="middle">client ↔ internet</text>
+<rect x="235" y="134" width="170" height="40" rx="10" fill="#12233d" stroke="#2A3F5F"/><text x="320" y="150" fill="#E7EEF7" font-size="13" text-anchor="middle">⬆ OUTPUT</text><text x="320" y="165" fill="#8DBDFF" font-size="11" text-anchor="middle">dari router (ping, Netwatch)</text>
+</svg><div class="cap">Gambar 2 — Tanya dulu "paket ini mau ke mana?" untuk pilih chain yang benar.</div></div>
 <div class="analogi"><b>💡 Analogi:</b> <i>input</i> = tamu yang mau ketemu satpam. <i>forward</i> = tamu yang cuma lewat gerbang ke gedung lain. Aturan dibaca berurutan seperti daftar periksa — paket cocok aturan nomor 3 ya berhenti di situ.</div>
 <h3>Aturan dasar yang aman</h3>
 <div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmt"># Terima yang sudah nyambung, buang yang rusak</span>
@@ -151,6 +179,16 @@ footer{border-top:1px solid #22365A;padding:22px 20px;max-width:1200px;margin:0 
 <li><b>srcnat/masquerade</b> — client LAN → internet (dibahas di Lab 3).</li>
 <li><b>dstnat</b> — internet → server di dalam LAN. Contoh: CCTV/server bisa diakses dari luar.</li>
 </ul>
+<div class="dia"><svg viewBox="0 0 640 190" role="img" aria-label="Diagram NAT masquerade">
+<rect x="10" y="20" width="150" height="40" rx="10" fill="#16294a" stroke="#2A3F5F"/><text x="85" y="44" fill="#E7EEF7" font-size="13" text-anchor="middle">💻 192.168.88.10</text>
+<rect x="10" y="70" width="150" height="40" rx="10" fill="#16294a" stroke="#2A3F5F"/><text x="85" y="94" fill="#E7EEF7" font-size="13" text-anchor="middle">📱 192.168.88.11</text>
+<rect x="10" y="120" width="150" height="40" rx="10" fill="#16294a" stroke="#2A3F5F"/><text x="85" y="144" fill="#E7EEF7" font-size="13" text-anchor="middle">🖥 192.168.88.12</text>
+<rect x="250" y="55" width="140" height="80" rx="12" fill="#2a1a08" stroke="#FF8A00" stroke-width="2"/><text x="320" y="82" fill="#FF8A00" font-size="14" text-anchor="middle" font-weight="bold">🔲 ROUTER</text><text x="320" y="102" fill="#E7EEF7" font-size="12" text-anchor="middle">srcnat</text><text x="320" y="118" fill="#8DBDFF" font-size="12" text-anchor="middle">masquerade</text>
+<rect x="470" y="55" width="160" height="80" rx="12" fill="#12233d" stroke="#3FB950"/><text x="550" y="82" fill="#3FB950" font-size="14" text-anchor="middle" font-weight="bold">🌐 INTERNET</text><text x="550" y="102" fill="#E7EEF7" font-size="12" text-anchor="middle">melihat 1 IP:</text><text x="550" y="118" fill="#8DBDFF" font-size="12" text-anchor="middle">36.81.x.x</text>
+<line x1="160" y1="40" x2="250" y2="80" stroke="#2A3F5F" stroke-width="2"/><line x1="160" y1="90" x2="250" y2="95" stroke="#2A3F5F" stroke-width="2"/><line x1="160" y1="140" x2="250" y2="115" stroke="#2A3F5F" stroke-width="2"/>
+<line x1="390" y1="95" x2="470" y2="95" stroke="#FF8A00" stroke-width="3"/>
+<text x="320" y="165" fill="#6B84A3" font-size="12" text-anchor="middle">50 karyawan, 1 "nomor humas"</text>
+</svg><div class="cap">Gambar 3 — Masquerade: banyak IP lokal keluar memakai satu IP publik.</div></div>
 <div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmt"># Teruskan port 8080 dari publik ke DVR 192.168.88.10</span>
 <span class="cmd">/ip firewall nat add chain=dstnat dst-port=8080 protocol=tcp action=dst-nat to-addresses=192.168.88.10 to-ports=80</span></pre></div>
 </section>
@@ -167,6 +205,16 @@ footer{border-top:1px solid #22365A;padding:22px 20px;max-width:1200px;margin:0 
 <span class="cmd">/ip route add distance=1 gateway=8.8.8.8 check-gateway=ping comment="utama"</span>
 <span class="cmd">/ip route add distance=2 gateway=1.1.1.1 check-gateway=ping comment="cadangan"</span></pre></div>
 <p>Versi lengkap siap tempel ada di <a href="https://github.com/dulkemot/mikrotik-toolbox">mikrotik-toolbox → 02-failover-2-wan.rsc</a>.</p>
+<div class="dia"><svg viewBox="0 0 640 240" role="img" aria-label="Diagram failover dua ISP">
+<rect x="40" y="14" width="150" height="52" rx="10" fill="#16294a" stroke="#2A3F5F"/><text x="115" y="35" fill="#E7EEF7" font-size="13" text-anchor="middle">ISP 1</text><text x="115" y="53" fill="#8DBDFF" font-size="11" text-anchor="middle">cek 8.8.8.8</text>
+<rect x="450" y="14" width="150" height="52" rx="10" fill="#16294a" stroke="#2A3F5F"/><text x="525" y="35" fill="#E7EEF7" font-size="13" text-anchor="middle">ISP 2</text><text x="525" y="53" fill="#8DBDFF" font-size="11" text-anchor="middle">cek 1.1.1.1</text>
+<rect x="245" y="100" width="150" height="56" rx="12" fill="#2a1a08" stroke="#FF8A00" stroke-width="2"/><text x="320" y="123" fill="#FF8A00" font-size="14" text-anchor="middle" font-weight="bold">🔲 ROUTER</text><text x="320" y="141" fill="#8DBDFF" font-size="11" text-anchor="middle">distance 1 vs 2</text>
+<rect x="245" y="180" width="150" height="44" rx="10" fill="#12233d" stroke="#3FB950"/><text x="320" y="198" fill="#E7EEF7" font-size="13" text-anchor="middle">🏢 LAN</text><text x="320" y="213" fill="#8DBDFF" font-size="11" text-anchor="middle">tetap online</text>
+<line x1="115" y1="66" x2="290" y2="100" stroke="#FF8A00" stroke-width="3"/><text x="175" y="90" fill="#FF8A00" font-size="11">utama</text>
+<line x1="525" y1="66" x2="350" y2="100" stroke="#6B84A3" stroke-width="2" stroke-dasharray="6,4"/><text x="455" y="90" fill="#6B84A3" font-size="11">cadangan</text>
+<line x1="320" y1="156" x2="320" y2="180" stroke="#3FB950" stroke-width="2"/>
+<text x="320" y="233" fill="#6B84A3" font-size="11" text-anchor="middle">ISP 1 mati → ping-check gagal → route cadangan aktif otomatis</text>
+</svg><div class="cap">Gambar 4 — Recursive routing: router tahu ISP mana yang hidup lewat ping-check.</div></div>
 <h3>Naik kelas: OSPF</h3>
 <p>Kalau router sudah banyak (kampus/hotel bertingkat), routing manual melelahkan. <b>OSPF</b> membuat router saling bertukar info jalan secara otomatis. Cukup aktifkan di tiap router + daftarkan network-nya — tabel route terisi sendiri.</p>
 </section>
@@ -205,6 +253,14 @@ footer{border-top:1px solid #22365A;padding:22px 20px;max-width:1200px;margin:0 
 <span class="cmd">/queue simple add name="client-50" target=192.168.88.50/32 limit-at=2M/2M max-limit=10M/10M</span></pre></div>
 <h3>Cara rapi: Queue Tree + Mangle</h3>
 <p>Untuk banyak client: tandai paket dulu (<b>mangle</b>: game/zoom = prioritas 1, download = prioritas 8), lalu atur antreannya di <b>queue tree</b>. Prioritas kecil = didahulukan. Pola ini yang dipakai di hotel/kampus.</p>
+<div class="dia"><svg viewBox="0 0 640 180" role="img" aria-label="Diagram antrean QoS">
+<rect x="10" y="20" width="170" height="46" rx="10" fill="#12233d" stroke="#3FB950"/><text x="95" y="39" fill="#3FB950" font-size="13" text-anchor="middle" font-weight="bold">📹 Zoom / Game</text><text x="95" y="56" fill="#8DBDFF" font-size="11" text-anchor="middle">prioritas 1 — duluan</text>
+<rect x="10" y="80" width="170" height="46" rx="10" fill="#12233d" stroke="#6B84A3"/><text x="95" y="99" fill="#E7EEF7" font-size="13" text-anchor="middle">⬇ Download</text><text x="95" y="116" fill="#8DBDFF" font-size="11" text-anchor="middle">prioritas 8 — antre</text>
+<rect x="260" y="35" width="120" height="76" rx="12" fill="#2a1a08" stroke="#FF8A00"/><text x="320" y="60" fill="#FF8A00" font-size="13" text-anchor="middle" font-weight="bold">⏳ QUEUE</text><text x="320" y="78" fill="#E7EEF7" font-size="11" text-anchor="middle">max 10 Mbps</text><text x="320" y="93" fill="#8DBDFF" font-size="11" text-anchor="middle">jaminan 2 Mbps</text>
+<rect x="450" y="35" width="180" height="76" rx="12" fill="#12233d" stroke="#2A3F5F"/><text x="540" y="60" fill="#E7EEF7" font-size="13" text-anchor="middle">🌐 Internet 10M</text><text x="540" y="78" fill="#8DBDFF" font-size="11" text-anchor="middle">sepi → boleh pinjam</text><text x="540" y="93" fill="#8DBDFF" font-size="11" text-anchor="middle">ramai → jatah dijamin</text>
+<line x1="180" y1="43" x2="260" y2="60" stroke="#3FB950" stroke-width="2"/><line x1="180" y1="103" x2="260" y2="90" stroke="#6B84A3" stroke-width="2"/>
+<line x1="380" y1="73" x2="450" y2="73" stroke="#FF8A00" stroke-width="3"/>
+</svg><div class="cap">Gambar 5 — HTB: jatah minimum dijamin, sisa bandwidth boleh "dipinjam" saat sepi.</div></div>
 </section>
 
 <section class="card" id="hotspot">
@@ -212,6 +268,12 @@ footer{border-top:1px solid #22365A;padding:22px 20px;max-width:1200px;margin:0 
 <p class="sub">WiFi warung/hotel yang login dulu baru internetan.</p>
 <p><b>Hotspot</b> mencegat user baru dan menampilkan <b>halaman login</b>. Cocok dipadukan dengan <b>User Manager</b> untuk jualan voucher waktu/kuota — sumber pemasukan RT/RW-net!</p>
 <p>Langkah cepat via WinBox: <b>IP → Hotspot → Hotspot Setup</b> (wizard), pilih interface, DNS, sertifikat (bisa skip untuk lab), lalu buat user di <b>IP → Hotspot → Users</b>.</p>
+<div class="dia"><svg viewBox="0 0 640 110" role="img" aria-label="Diagram alur hotspot">
+<rect x="10" y="28" width="130" height="52" rx="10" fill="#16294a" stroke="#2A3F5F"/><text x="75" y="50" fill="#E7EEF7" font-size="13" text-anchor="middle">📱 Tamu</text><text x="75" y="66" fill="#8DBDFF" font-size="11" text-anchor="middle">buka WiFi</text>
+<rect x="200" y="28" width="150" height="52" rx="10" fill="#2a1a08" stroke="#FF8A00"/><text x="275" y="50" fill="#FF8A00" font-size="13" text-anchor="middle" font-weight="bold">🔑 Login page</text><text x="275" y="66" fill="#8DBDFF" font-size="11" text-anchor="middle">voucher / user</text>
+<rect x="410" y="28" width="220" height="52" rx="10" fill="#12233d" stroke="#3FB950"/><text x="520" y="50" fill="#3FB950" font-size="13" text-anchor="middle" font-weight="bold">🌐 Internet + limit</text><text x="520" y="66" fill="#8DBDFF" font-size="11" text-anchor="middle">2 Mbps • 1 GB • 3 jam</text>
+<line x1="140" y1="54" x2="200" y2="54" stroke="#2A3F5F" stroke-width="2"/><line x1="350" y1="54" x2="410" y2="54" stroke="#FF8A00" stroke-width="2"/>
+</svg><div class="cap">Gambar 6 — Alur hotspot: sambung → login voucher → internet berlimit.</div></div>
 <div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmt"># Batasi 1 user: 2 Mbps, kuota 1 GB, 3 jam</span>
 <span class="cmd">/ip hotspot user profile add name=voucher rate-limit=2M/2M</span>
 <span class="cmd">/ip hotspot user add name=VOUCHER-001 password=abc123 profile=voucher limit-bytes-total=1073741824 limit-uptime=3h</span></pre></div>
