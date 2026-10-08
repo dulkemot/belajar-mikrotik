@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Belajar MikroTik — Materi Jaringan dari Nol</title>
+<meta name="description" content="Materi MikroTik lengkap untuk pemula & mahasiswa jaringan: dasar, firewall, routing, VPN, QoS, hotspot, monitoring, troubleshooting + kuis." />
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#0B1526;color:#E7EEF7;font-family:Inter,'Segoe UI',system-ui,Arial;line-height:1.7}
+a{color:#FF8A00}
+header.top{position:sticky;top:0;z-index:20;background:rgba(11,21,38,.95);backdrop-filter:blur(10px);border-bottom:1px solid #22365A}
+.top-in{max-width:1200px;margin:0 auto;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+.top-in b{font-size:17px}.top-in nav a{margin-left:14px;color:#BFD2EC;text-decoration:none;font-size:13.5px;font-weight:600}
+.hero{max-width:1200px;margin:0 auto;padding:48px 20px 10px}
+.hero h1{font-size:clamp(28px,4.5vw,44px);margin:0 0 10px;letter-spacing:-.02em}
+.hero h1 span{color:#FF8A00}.lead{color:#9FB4CE;max-width:70ch}
+.btn{background:#FF8A00;color:#13100A;font-weight:800;padding:11px 20px;border-radius:10px;text-decoration:none;display:inline-block;margin:6px 10px 6px 0;font-size:14px}
+.btn.ghost{background:transparent;border:1px solid #2A3F5F;color:#E7EEF7}
+.layout{max-width:1200px;margin:0 auto;padding:0 20px 60px;display:grid;grid-template-columns:230px 1fr;gap:28px;align-items:start}
+.toc{position:sticky;top:70px;background:#0E1B31;border:1px solid #22365A;border-radius:14px;padding:16px;font-size:13px;max-height:calc(100vh - 90px);overflow:auto}
+.toc b{display:block;margin-bottom:8px;color:#8DBDFF}.toc a{display:block;color:#BFD2EC;text-decoration:none;padding:4px 0}.toc a:hover{color:#FF8A00}
+section.card{background:#0E1B31;border:1px solid #22365A;border-radius:16px;padding:26px;margin-top:18px}
+section.card h2{margin:0 0 4px;font-size:23px}section.card h2 .n{color:#FF8A00}
+.sub{color:#6B84A3;font-size:14px;margin:0 0 12px}
+h3{color:#8DBDFF;margin:22px 0 6px;font-size:17px}
+p,li{font-size:14.5px;color:#C9D6E8}ul{padding-left:20px}
+.analogi{background:#12233d;border-left:4px solid #FF8A00;border-radius:0 12px 12px 0;padding:12px 16px;font-size:14px;margin:14px 0}
+.analogi b{color:#FF8A00}
+.code{position:relative;background:#060D1A;border:1px solid #22365A;border-radius:12px;margin:12px 0}
+.code pre{margin:0;padding:16px;overflow-x:auto;font-size:13px;line-height:1.65;color:#BFD2EC;font-family:ui-monospace,Menlo,Consolas,monospace}
+.code button{position:absolute;top:8px;right:8px;background:#22365A;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer}
+.cmd{color:#7EE787}.cmt{color:#6B84A3}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:12px 0}
+th,td{text-align:left;padding:9px 10px;border:1px solid #22365A}th{background:#16294a;color:#8DBDFF}
+.warn{background:#2a1a08;border:1px solid #7a4a12;border-radius:12px;padding:12px 16px;font-size:13.5px;color:#f0c98a;margin:12px 0}
+.quiz-q{background:#111F36;border:1px solid #22365A;border-radius:12px;padding:16px;margin:12px 0}
+.quiz-q p{font-weight:700;color:#fff}.quiz-q label{display:block;background:#0B1526;border:1px solid #2A3F5F;border-radius:10px;padding:10px 14px;margin:8px 0;font-size:14px;cursor:pointer}
+.quiz-q label.ok{border-color:#3FB950;background:rgba(63,185,80,.12)}
+.quiz-q label.no{border-color:#F85149;background:rgba(248,81,73,.12)}
+#skor{font-size:17px;font-weight:800;margin-top:12px}
+footer{border-top:1px solid #22365A;padding:22px 20px;max-width:1200px;margin:0 auto;color:#6B84A3;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.toc{position:static;max-height:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in"><b>📡 Belajar MikroTik</b><nav><a href="#mulai">Mulai</a><a href="#lab">Lab</a><a href="#kuis">Kuis</a><a href="https://github.com/dulkemot/mikrotik-toolbox">Script →</a></nav></div></header>
+
+<div class="hero">
+<h1>Belajar MikroTik <span>dari Nol sampai Bisa</span></h1>
+<p class="lead">Materi jaringan lengkap untuk pemula & mahasiswa: dari colok kabel pertama sampai VPN, QoS, dan hotspot — dengan analogi sederhana, perintah siap salin, dan kuis. Didampingi repo <a href="https://github.com/dulkemot/mikrotik-toolbox">mikrotik-toolbox</a> (script siap pakai) dan <a href="https://dulkemot.github.io/subnet-kalkulator/">kalkulator subnet</a>.</p>
+<p><a class="btn" href="#mulai">Mulai Belajar →</a><a class="btn ghost" href="#kuis">Langsung Kuis</a></p>
+</div>
+
+<div class="layout">
+<nav class="toc"><b>📚 Daftar Isi</b>
+<a href="#mulai">1. Apa itu MikroTik?</a>
+<a href="#akses">2. Cara Akses Router</a>
+<a href="#internet">3. Internet Pertama (Lab Wajib)</a>
+<a href="#ip">4. IP, DHCP & DNS</a>
+<a href="#firewall">5. Firewall & NAT</a>
+<a href="#routing">6. Routing & Failover</a>
+<a href="#wireless">7. Wireless</a>
+<a href="#vpn">8. VPN WireGuard</a>
+<a href="#qos">9. QoS & Limit Bandwidth</a>
+<a href="#hotspot">10. Hotspot Voucher</a>
+<a href="#rawat">11. Monitoring & Rawat</a>
+<a href="#trouble">12. Troubleshooting</a>
+<a href="#tugas">13. Tugas Mahasiswa</a>
+<a href="#istilah">14. Kamus Istilah</a>
+<a href="#kuis">15. Kuis</a>
+</nav>
+
+<main>
+<section class="card" id="mulai">
+<h2><span class="n">1.</span> Apa itu MikroTik?</h2>
+<p class="sub">Kenalan dulu sebelum pegang router.</p>
+<p><b>MikroTik</b> adalah perusahaan asal Latvia yang membuat <b>RouterOS</b> — sistem operasi khusus router. Sedangkan perangkat fisiknya disebut <b>RouterBOARD</b> (contoh: hAP, RB750, CCR). RouterOS juga bisa dipasang di PC biasa (x86) atau dijalankan sebagai mesin virtual bernama <b>CHR</b> (Cloud Hosted Router, gratis untuk lab dengan limit kecepatan).</p>
+<div class="analogi"><b>💡 Analogi:</b> kalau HP punya Android, router MikroTik punya RouterOS. Bedanya, RouterOS memberi kamu kendali <i>penuh</i> sampai level paket data — makanya dipakai ISP, kampus, hotel, dan warnet.</div>
+<h3>Lisensi RouterOS</h3>
+<table><tr><th>Level</th><th>Cocok untuk</th></tr>
+<tr><td>4 (bawaan hAP/RB kecil)</td><td>Rumah, lab, AP</td></tr>
+<tr><td>5–6</td><td>ISP kecil, hotspot besar, routing penuh</td></tr>
+<tr><td>CHR trial / P1</td><td>Lab virtual & cloud</td></tr></table>
+</section>
+
+<section class="card" id="akses">
+<h2><span class="n">2.</span> Cara Akses Router</h2>
+<p class="sub">Empat pintu masuk ke router yang sama.</p>
+<ul>
+<li><b>WinBox</b> — aplikasi Windows (jalan juga di Linux via Wine). Paling enak untuk pemula: klik-klik + ada <b>Neighbors</b> untuk menemukan router yang belum punya IP. Login awal: user <code>admin</code>, password kosong.</li>
+<li><b>WebFig</b> — buka IP router di browser (tampilan mirip WinBox).</li>
+<li><b>SSH / Terminal</b> — untuk perintah teks (CLI). Semua contoh di materi ini memakai CLI karena mudah disalin dan dibuat script.</li>
+<li><b>API / Aplikasi</b> — untuk monitoring dan aplikasi buatan sendiri.</li>
+</ul>
+<div class="analogi"><b>💡 Analogi:</b> WinBox itu seperti stir mobil matic, CLI itu seperti mekanik buka kap mesin. Sopir andal perlu bisa dua-duanya.</div>
+<div class="warn">🔒 Begitu bisa login, hal pertama: <b>ganti password admin!</b> Router dengan password kosong yang tersambung ke internet bisa diambil alih orang dalam hitungan menit.<br /><code>/user set admin password="Buat-Password-Kuat-123"</code></div>
+</section>
+
+<section class="card" id="internet">
+<h2><span class="n">3.</span> Internet Pertama — Lab Wajib 🧪</h2>
+<p class="sub">Skenario: kabel ISP masuk ke <b>ether1</b>, laptop/HP lewat <b>ether2</b>. Target: laptop bisa internet.</p>
+<p>Ada <b>4 langkah</b> dan semuanya wajib berurutan. Hafalkan pola ini — 90% konfigurasi dasar MikroTik hanya variasi dari 4 langkah ini:</p>
+<div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmt"># 1. WAN dapat IP otomatis dari ISP</span>
+<span class="cmd">/ip dhcp-client add interface=ether1 disabled=no</span>
+
+<span class="cmt"># 2. LAN diberi IP (gerbang bagi client)</span>
+<span class="cmd">/ip address add address=192.168.88.1/24 interface=ether2</span>
+
+<span class="cmt"># 3. Router tahu DNS (penerjemah nama ke IP)</span>
+<span class="cmd">/ip dns set servers=8.8.8.8,1.1.1.1 allow-remote-requests=yes</span>
+
+<span class="cmt"># 4. NAT: sembunyikan IP LAN di balik IP publik</span>
+<span class="cmd">/ip firewall nat add chain=srcnat out-interface=ether1 action=masquerade</span></pre></div>
+<div class="analogi"><b>💡 Analogi NAT:</b> satu kantor punya 50 karyawan tapi 1 nomor telepon humas. Semua panggilan keluar "mengatasnamakan" humas — itulah <i>masquerade</i>.</div>
+<p>Cek: <code>/ip dhcp-client print</code> (status harus <i>bound</i>), lalu dari laptop: <code>ping 8.8.8.8</code> dan <code>ping google.com</code>. Kalau yang pertama jalan tapi kedua gagal → masalahnya <b>DNS</b>.</p>
+</section>
+
+<section class="card" id="ip">
+<h2><span class="n">4.</span> IP Address, DHCP & DNS</h2>
+<p class="sub">Tiga serangkai yang bikin jaringan "nyambung".</p>
+<h3>IP Address & Netmask</h3>
+<p>IP versi 4 seperti <code>192.168.88.1/24</code>. Angka setelah garis miring (<b>prefix</b>) menentukan besar jaringan: <code>/24</code> = 254 host, <code>/30</code> = 2 host (untuk link antar-router), <code>/32</code> = 1 IP. Bingung hitung? Pakai <a href="https://dulkemot.github.io/subnet-kalkulator/">kalkulator subnet</a>.</p>
+<h3>DHCP: tukang bagi IP otomatis</h3>
+<p>Daripada setting manual per laptop, aktifkan DHCP Server di interface LAN. Client dapat IP + gateway + DNS sekaligus.</p>
+<div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmt"># Server DHCP di ether2, sewa 1 hari</span>
+<span class="cmd">/ip pool add name=pool-lan ranges=192.168.88.10-192.168.88.200</span>
+<span class="cmd">/ip dhcp-server add name=dhcp-lan interface=ether2 address-pool=pool-lan disabled=no</span>
+<span class="cmd">/ip dhcp-server network add address=192.168.88.0/24 gateway=192.168.88.1 dns-server=192.168.88.1</span></pre></div>
+<p>Di WinBox: <b>IP → DHCP Server → DHCP Setup</b> (wizard otomatis, cocok untuk pemula).</p>
+<h3>DNS: buku telepon internet</h3>
+<p>Manusia ingat <i>google.com</i>, komputer butuh <i>142.250.x.x</i>. Router bisa jadi "tukang tanya" (allow-remote-requests) agar client cukup mengarah ke IP router. Tambahan keren: <b>Static DNS</b> untuk blokir situs (<code>/ip dns static add name=iklan.mengganggu address=127.0.0.1</code>) atau arahkan domain ke server lokal.</p>
+</section>
+
+<section class="card" id="firewall">
+<h2><span class="n">5.</span> Firewall & NAT</h2>
+<p class="sub">Satpam + resepsionis router. Dibaca dari atas ke bawah!</p>
+<h3>Tiga chain (jalur) utama</h3>
+<table><tr><th>Chain</th><th>Artinya</th><th>Contoh</th></tr>
+<tr><td><b>input</b></td><td>Paket yang <i>tujuannya router itu sendiri</i></td><td>Login WinBox, DNS ke router</td></tr>
+<tr><td><b>forward</b></td><td>Paket <i>lewat</i> router (client ↔ internet)</td><td>Browsing, game, streaming</td></tr>
+<tr><td><b>output</b></td><td>Paket <i>dari</i> router keluar</td><td>Ping/Netwatch dari router</td></tr></table>
+<div class="analogi"><b>💡 Analogi:</b> <i>input</i> = tamu yang mau ketemu satpam. <i>forward</i> = tamu yang cuma lewat gerbang ke gedung lain. Aturan dibaca berurutan seperti daftar periksa — paket cocok aturan nomor 3 ya berhenti di situ.</div>
+<h3>Aturan dasar yang aman</h3>
+<div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmt"># Terima yang sudah nyambung, buang yang rusak</span>
+<span class="cmd">/ip firewall filter add chain=input action=accept connection-state=established,related,untracked</span>
+<span class="cmd">/ip firewall filter add chain=input action=drop connection-state=invalid</span>
+<span class="cmd">/ip firewall filter add chain=input action=accept src-address=192.168.88.0/24</span>
+<span class="cmd">/ip firewall filter add chain=input action=drop comment="tolak sisanya"</span></pre></div>
+<h3>NAT: masquerade vs port-forwarding</h3>
+<ul>
+<li><b>srcnat/masquerade</b> — client LAN → internet (dibahas di Lab 3).</li>
+<li><b>dstnat</b> — internet → server di dalam LAN. Contoh: CCTV/server bisa diakses dari luar.</li>
+</ul>
+<div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmt"># Teruskan port 8080 dari publik ke DVR 192.168.88.10</span>
+<span class="cmd">/ip firewall nat add chain=dstnat dst-port=8080 protocol=tcp action=dst-nat to-addresses=192.168.88.10 to-ports=80</span></pre></div>
+</section>
+
+<section class="card" id="routing">
+<h2><span class="n">6.</span> Routing & Failover Otomatis</h2>
+<p class="sub">Memberi tahu router "jalan" menuju tiap tujuan.</p>
+<p><b>Static route</b> = petunjuk jalan manual. Contoh: jaringan kantor cabang lewat VPN:</p>
+<div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmd">/ip route add dst-address=10.10.20.0/24 gateway=10.99.99.2</span></pre></div>
+<h3>Failover 2 ISP (materi favorit mahasiswa!)</h3>
+<p>Triknya bernama <b>recursive routing</b>: masing-masing gateway "ditambatkan" ke IP publik (8.8.8.8 dan 1.1.1.1). Kalau ISP 1 mati, ping-check gagal → route utama nonaktif → traffic pindah ke ISP 2 otomatis.</p>
+<div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmd">/ip route add dst-address=8.8.8.8/32 gateway=192.168.1.1 scope=10 comment="cek-isp1"</span>
+<span class="cmd">/ip route add dst-address=1.1.1.1/32 gateway=192.168.2.1 scope=10 comment="cek-isp2"</span>
+<span class="cmd">/ip route add distance=1 gateway=8.8.8.8 check-gateway=ping comment="utama"</span>
+<span class="cmd">/ip route add distance=2 gateway=1.1.1.1 check-gateway=ping comment="cadangan"</span></pre></div>
+<p>Versi lengkap siap tempel ada di <a href="https://github.com/dulkemot/mikrotik-toolbox">mikrotik-toolbox → 02-failover-2-wan.rsc</a>.</p>
+<h3>Naik kelas: OSPF</h3>
+<p>Kalau router sudah banyak (kampus/hotel bertingkat), routing manual melelahkan. <b>OSPF</b> membuat router saling bertukar info jalan secara otomatis. Cukup aktifkan di tiap router + daftarkan network-nya — tabel route terisi sendiri.</p>
+</section>
+
+<section class="card" id="wireless">
+<h2><span class="n">7.</span> Wireless (WiFi)</h2>
+<p class="sub">Mengubah router menjadi access point.</p>
+<p>Konsep kunci: <b>mode</b> (<code>ap-bridge</code> = jadi pemancar, <code>station</code> = jadi penangkap), <b>SSID</b> (nama WiFi), <b>security profile</b> (WPA2 + password), <b>channel/frequency</b> (pakai yang sepi: 1, 6, atau 11 di 2,4 GHz).</p>
+<div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmd">/interface wireless security-profiles add name=aman mode=dynamic-keys authentication-types=wpa2-psk wpa2-pre-shared-key="PasswordWifiKuat"</span>
+<span class="cmd">/interface wireless set wlan1 mode=ap-bridge ssid="Lab-Jaringan" security-profile=aman frequency=2412 disabled=no</span></pre></div>
+<div class="analogi"><b>💡 Analogi channel:</b> WiFi seperti orang ngobrol di ruangan. Kalau semua teriak di frekuensi sama, tidak ada yang terdengar jelas. Pindah channel = pindah meja yang sepi.</div>
+<p>Untuk banyak AP (gedung/hotel): pakai <b>CAPsMAN</b> — 1 controller mengatur semua AP: SSID, password, dan channel terpusat. Topik bagus untuk tugas akhir!</p>
+</section>
+
+<section class="card" id="vpn">
+<h2><span class="n">8.</span> VPN dengan WireGuard</h2>
+<p class="sub">Terowongan aman dari internet ke jaringan lokal.</p>
+<p><b>WireGuard</b> adalah VPN modern: cepat, simpel, dan sudah bawaan RouterOS 7. Dua pola umum:</p>
+<ul>
+<li><b>Road-warrior</b> — teknisi dari HP/laptop mengakses router & LAN kantor dari mana saja.</li>
+<li><b>Site-to-site</b> — menghubungkan 2 kantor seolah satu LAN.</li>
+</ul>
+<div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmt"># Di router kantor (ganti port bila perlu)</span>
+<span class="cmd">/interface wireguard add name=wg-admin listen-port=13231</span>
+<span class="cmd">/ip address add address=10.99.99.1/24 interface=wg-admin</span>
+<span class="cmd">/ip firewall filter add chain=input protocol=udp dst-port=13231 action=accept comment="izin WireGuard"</span></pre></div>
+<p>Tiap perangkat butuh <b>key pair</b> (public/private). Private key tidak boleh bocor — seperti password. Script lengkap + firewall-nya ada di <a href="https://github.com/dulkemot/mikrotik-toolbox">toolbox 05-wireguard</a>.</p>
+</section>
+
+<section class="card" id="qos">
+<h2><span class="n">9.</span> QoS & Limit Bandwidth</h2>
+<p class="sub">Biar Zoom tidak kalah dengan download.</p>
+<p>Prinsip <b>HTB</b> (yang dipakai MikroTik): bandwidth dibagi seperti kue — ada jatah <b>minimum yang dijamin</b> (limit-at) dan <b>maksimum boleh pinjam</b> (max-limit) saat jalur sepi.</p>
+<h3>Cara gampang: Simple Queue</h3>
+<div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmt"># Client 192.168.88.50: jatah 2 Mbps, boleh pinjam sampai 10 Mbps</span>
+<span class="cmd">/queue simple add name="client-50" target=192.168.88.50/32 limit-at=2M/2M max-limit=10M/10M</span></pre></div>
+<h3>Cara rapi: Queue Tree + Mangle</h3>
+<p>Untuk banyak client: tandai paket dulu (<b>mangle</b>: game/zoom = prioritas 1, download = prioritas 8), lalu atur antreannya di <b>queue tree</b>. Prioritas kecil = didahulukan. Pola ini yang dipakai di hotel/kampus.</p>
+</section>
+
+<section class="card" id="hotspot">
+<h2><span class="n">10.</span> Hotspot + Voucher</h2>
+<p class="sub">WiFi warung/hotel yang login dulu baru internetan.</p>
+<p><b>Hotspot</b> mencegat user baru dan menampilkan <b>halaman login</b>. Cocok dipadukan dengan <b>User Manager</b> untuk jualan voucher waktu/kuota — sumber pemasukan RT/RW-net!</p>
+<p>Langkah cepat via WinBox: <b>IP → Hotspot → Hotspot Setup</b> (wizard), pilih interface, DNS, sertifikat (bisa skip untuk lab), lalu buat user di <b>IP → Hotspot → Users</b>.</p>
+<div class="code"><button onclick="salin(this)">Salin</button><pre><span class="cmt"># Batasi 1 user: 2 Mbps, kuota 1 GB, 3 jam</span>
+<span class="cmd">/ip hotspot user profile add name=voucher rate-limit=2M/2M</span>
+<span class="cmd">/ip hotspot user add name=VOUCHER-001 password=abc123 profile=voucher limit-bytes-total=1073741824 limit-uptime=3h</span></pre></div>
+</section>
+
+<section class="card" id="rawat">
+<h2><span class="n">11.</span> Monitoring & Perawatan</h2>
+<p class="sub">Router yang tidak dipantau = bom waktu.</p>
+<ul>
+<li><b>Netwatch</b> — pantau host penting, jalankan script saat down/up. Digabung <b>alert Telegram</b> (lihat toolbox 04).</li>
+<li><b>Backup + Export</b> — file <code>.backup</code> hanya bisa dibuka tipe sama; <code>/export</code> (.rsc) bisa dibaca manusia & beda versi. Punya dua-duanya!</li>
+<li><b>Scheduler</b> — otomatisasi: backup harian, reboot mingguan, kirim laporan.</li>
+<li><b>Logging</b> — kirim log ke server (remote syslog) agar jejak tidak hilang saat router restart.</li>
+<li><b>Update</b> — <code>System → Packages → Check For Updates</code>. Baca changelog dulu untuk router produksi; update tengah malam.</li>
+<li><b>The Dude</b> — aplikasi gratis MikroTik untuk peta jaringan + monitoring banyak router sekaligus.</li>
+</ul>
+</section>
+
+</main>
+</div>
+<section class="card" id="trouble">
+<h2><span class="n">12.</span> Troubleshooting — Urutan yang Benar</h2>
+<p class="sub">Jangan acak. Ikuti tangga ini dari bawah ke atas.</p>
+<table><tr><th>Langkah</th><th>Cek</th><th>Perintah</th></tr>
+<tr><td>1. Fisik</td><td>Kabel nancap? lampu interface nyala?</td><td><code>/interface print</code> (R = running?)</td></tr>
+<tr><td>2. IP</td><td>IP & gateway benar?</td><td><code>/ip address print</code>, ping gateway</td></tr>
+<tr><td>3. Route</td><td>Ada jalan keluar?</td><td><code>/ip route print</code>, ping 8.8.8.8</td></tr>
+<tr><td>4. DNS</td><td>Nama bisa diterjemahkan?</td><td>ping google.com</td></tr>
+<tr><td>5. Firewall/NAT</td><td>Ada aturan yang menahan?</td><td>Cek counter rules, disable sementara untuk tes</td></tr></table>
+<p>Senjata tambahan: <b>Torch</b> (lihat traffic live per IP), <b>Sniffer/Packet Sniffer</b> (rekam paket), <b>Ping + Traceroute</b> dari Tools, dan <b>Log</b> (<code>/log print</code>).</p>
+<div class="analogi"><b>💡 Hafalan:</b> <i>"Ping gateway dulu, baru ping dunia."</i> Kalau gateway saja RTO, jangan salahkan ISP.</div>
+</section>
+
+<section class="card" id="tugas">
+<h2><span class="n">13.</span> Tugas Praktikum Mahasiswa 🎓</h2>
+<p class="sub">Bisa dikerjakan di CHR/GNS3/EVE-NG bila perangkat terbatas.</p>
+<ul>
+<li><b>Tugas 1</b> — Bangun Lab 3: sambungkan 1 client ke internet + DHCP server. Bukti: screenshot ping google.com dari client.</li>
+<li><b>Tugas 2</b> — Hitung subnet untuk 4 divisi (masing-masing butuh 25 host) dari 192.168.10.0/24, lalu terapkan 1 subnet di router. (Bantuan: <a href="https://dulkemot.github.io/subnet-kalkulator/">kalkulator subnet</a>)</li>
+<li><b>Tugas 3</b> — Terapkan firewall hardening + buktikan port telnet/FTP tertutup (scan dari client).</li>
+<li><b>Tugas 4</b> — Simulasikan failover: 2 gateway, cabut kabel ISP 1, ukur berapa detik pindah + buktikan tanpa putus ping lama.</li>
+<li><b>Tugas 5</b> — Bangun hotspot voucher untuk 5 user + batasi 2 Mbps, uji login dari HP.</li>
+<li><b>Tugas 6 (kelompok)</b> — Rancang jaringan hotel 3 lantai: VLAN tamu/kantor/CCTV, QoS Zoom prioritas, WireGuard untuk admin, presentasikan topologinya.</li>
+</ul>
+</section>
+
+<section class="card" id="istilah">
+<h2><span class="n">14.</span> Kamus Istilah Kilat</h2>
+<table>
+<tr><td><b>Gateway</b></td><td>Pintu keluar jaringan lokal menuju dunia luar</td></tr>
+<tr><td><b>DNS</b></td><td>Penerjemah nama (google.com) ke IP</td></tr>
+<tr><td><b>DHCP</b></td><td>Pembagi IP otomatis</td></tr>
+<tr><td><b>NAT/Masquerade</b></td><td>Menyembunyikan banyak IP lokal di balik 1 IP publik</td></tr>
+<tr><td><b>Firewall chain</b></td><td>Jalur aturan: input (ke router), forward (lewat), output (dari router)</td></tr>
+<tr><td><b>VLAN</b></td><td>Memecah 1 switch jadi beberapa jaringan logis</td></tr>
+<tr><td><b>VPN</b></td><td>Terowongan aman lewat internet</td></tr>
+<tr><td><b>QoS</b></td><td>antrean prioritas bandwidth</td></tr>
+<tr><td><b>Bridge</b></td><td>Menggabung beberapa port jadi 1 switch logis</td></tr>
+<tr><td><b>CAPsMAN</b></td><td>Controller untuk mengatur banyak AP sekaligus</td></tr>
+</table>
+</section>
+
+<section class="card" id="kuis">
+<h2><span class="n">15.</span> Kuis Kilat ✏️</h2>
+<p class="sub">5 soal. Klik jawaban — langsung tahu benar/salah.</p>
+<div id="quiz"></div>
+<div id="skor"></div>
+<p><button class="btn" onclick="nilai()">Lihat Nilai →</button> <button class="btn ghost" onclick="mulaiKuis()">Ulangi</button></p>
+</section>
+
+</main>
+</div>
+
+<footer><span>© 2026 dulkemot — bahan ajar jaringan • MIT</span><span><a href="https://github.com/dulkemot/mikrotik-toolbox">Script</a> • <a href="https://dulkemot.github.io/portfolio/">Portfolio</a></span></footer>
+
+<script>
+function salin(btn) {
+  const t = btn.parentElement.querySelector("pre").innerText;
+  navigator.clipboard.writeText(t).then(() => {
+    const a = btn.textContent; btn.textContent = "Disalin ✓";
+    setTimeout(() => btn.textContent = a, 1500);
+  });
+}
+const SOAL = [
+  { q: "Fungsi NAT masquerade?", o: ["Agar banyak IP lokal bisa internet via 1 IP publik", "Agar WiFi lebih kencang", "Agar router tidak panas"], k: 0 },
+  { q: "Trafik client yang browsing lewat router masuk chain?", o: ["input", "forward", "output"], k: 1 },
+  { q: "Berapa usable host dalam /24?", o: ["256", "254", "24"], k: 1 },
+  { q: "Port default WinBox?", o: ["80", "8291", "443"], k: 1 },
+  { q: "Urutan pertama saat internet mati?", o: ["Reset router", "Cek fisik & ping gateway", "Ganti ISP"], k: 1 },
+];
+let benar = 0, dijawab = 0;
+function mulaiKuis() {
+  benar = 0; dijawab = 0; document.getElementById("skor").textContent = "";
+  document.getElementById("quiz").innerHTML = SOAL.map((s, i) => `
+    <div class="quiz-q" data-k="${s.k}" data-i="${i}"><p>${i + 1}. ${s.q}</p>
+    ${s.o.map((o, j) => `<label><input type="radio" name="q${i}" value="${j}" onchange="jawab(this)" /> ${o}</label>`).join("")}
+    </div>`).join("");
+}
+function jawab(el) {
+  const box = el.closest(".quiz-q");
+  if (box.dataset.done) return;
+  box.dataset.done = "1"; dijawab++;
+  const k = +box.dataset.k;
+  const labels = box.querySelectorAll("label");
+  labels[k].classList.add("ok");
+  if (+el.value === k) { benar++; } else { el.closest("label").classList.add("no"); }
+}
+function nilai() {
+  const s = document.getElementById("skor");
+  if (dijawab < SOAL.length) { s.textContent = `Baru jawab ${dijawab}/${SOAL.length} — selesaikan dulu ya 🙂`; return; }
+  const n = Math.round(benar / SOAL.length * 100);
+  s.textContent = n === 100 ? `🎉 Sempurna! ${benar}/${SOAL.length} (${n})` : n >= 60 ? `👍 Lulus! ${benar}/${SOAL.length} (${n})` : `📖 Nilai ${benar}/${SOAL.length} (${n}) — baca lagi bagian yang salah ya`;
+}
+mulaiKuis();
+</script>
+</body>
+</html>
